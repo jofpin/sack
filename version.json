@@ -1,0 +1,10 @@
+{
+	"Sack": {
+		"description": "Identify connection of sessions for social engineering attacks",
+		"author": "Jose Pino (Fraph), @jofpin",
+		"version": "1.0",
+		"update": { 
+			"Date": "30/08/16"
+			}
+		}
+	}

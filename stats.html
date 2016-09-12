@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sack &#8250; History and tracking of victims</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="google" value="notranslate"/>
+    <meta name="author" content="Jose Pino, @jofpin"/>
+
+    <!-- Styles & Favicon -->
+    <link rel="stylesheet" href="assets/css/base-icons.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+
+    <script src="assets/js/jquery.min.js"></script>
+    <!--[if (gte IE 6) & (lte IE 9)]>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="SackReport">
+  <header class="SackReport-Header">
+    <a class="SackReport-element--Icon---githubProject" href="https://github.com/jofpin/sack" title="Open in Github"><i class="icon-github"></i></a>
+    <div data-version="1.0" title="Recent version"></div>
+    <div class="SackReport-element--Logo">
+      <a href="/">Sack </a><a class="SackApp-element--byJosePino" href="https://twitter.com/jofpin">by Jose Pino</a>
+    </div>
+
+    <p class="SackReport-Header--descriptionOne">Identify connection of sessions for social engineering attacks</p>
+    <p class="SackReport-Header--descriptionTwo"><span class="icon-angle-double-right"></span> History and tracking of victims <span class="icon-angle-double-left"></span></p>
+
+      <div class="SackReport-element--stats">
+        <div class="SackReport-element--stats---miniBox onlines"><span class="SackReport-element--stats---miniBox----result"><strong>2</strong> online</span></div>
+        <div class="SackReport-element--stats---miniBox targets"><span class="SackReport-element--stats---miniBox----result"><strong>2</strong> targets</span></div>
+        <div class="SackReport-element--stats---miniBox victims"><span class="SackReport-element--stats---miniBox----result"><strong>2</strong> victims</span></div>
+        <div class="SackReport-element--stats---miniBox requests"><span class="SackReport-element--stats---miniBox----result"><strong>2</strong> requests</span></div>
+        <div class="SackReport-element--stats---miniBox locations"><span class="SackReport-element--stats---miniBox----result"><strong>2</strong> locations</span></div>
+      </div>
+    </header>
+
+  <div class="SackReport-general">    
+
+    <div class="SackReport-general--organize">
+      <div class="SackReport-element--search">
+        <span class="SackReport-element--Icon---searchInput icon-search"></span>
+        <input type="text" class="form-control" placeholder="Search for victims">
+      </div>
+
+      <div class="SackReport-Tabs">
+        <div class="SackReport-Tabs--container">
+          <button data-tab-item="1" class="SackReport-Tabs--button is-active">History</button>
+          <button data-tab-item="2" class="SackReport-Tabs--button">Inspect</button>
+        </div>
+      </div>
+      
+    </div>
+    
+      
+      <div class="tab-item-1 SackReport-Results">
+
+        <li class="SackReport-Results--head">
+          <ul>
+            <li style="width:25%"><p class="SackReport-Results--head---textTitle">IP address</p></li>
+            <li style="width:15%"><p class="SackReport-Results--head---textTitle">OS</p></li>
+            <li style="width:20%"><p class="SackReport-Results--head---textTitle">Browser</p></li>
+            <li style="width:20%"><p class="SackReport-Results--head---textTitle">Date of attack</p></li>
+            <li style="width:10%"><p class="SackReport-Results--head---textTitle">Activities</p></li>
+          </ul>
+        </li>
+
+         <!-- show data victims -->
+        <div data-show-victims="data.json"></div>
+
+          <ul class="SackReport-Results--bodyBox">
+            <li>
+              <span class="SackReport-Results--element---flagLocation">
+                <img src="assets/img/flags/Colombia.png" style="width: 32px;">
+              </span>
+              <span class="SackReport-Results--element---ipLocation">177.77.77.77</span>
+            </li>
+            
+            <li style="width: 15%;">
+              <span class="SackReport-Results--element---box">
+                <span class="SackReport-Results--element---icon icon-linux" style="background: #2a3239;"></span>
+                <span class="SackReport-Results--element---text">Linux</span>
+              </span>
+            </li>
+
+            <li>
+              <span class="SackReport-Results--element---box">
+                <span class="SackReport-Results--element---icon icon-chrome" style="background: #FCCA03;"></span>
+                <span class="SackReport-Results--element---text">Chrome</span>
+              </span>
+            </li>
+            
+            <li style="width: 20%;">
+              <span class="SackReport-Results--element---box">22/05/14 - 10:59:35</span>
+            </li>
+
+            <li style="width: 10%;">
+              <span class="SackReport-Results--element---box"><strong>2</strong> inputs</span>
+            </li>
+
+            <li>
+              <span class="SackReport-Results--element---showDetails">
+                <a class="SackReport-element--detailsText" href="#" button-sack-detail="show">
+                  <span class="m icon-database"></span> Details <span class="icon-angle-double-right"></span></a>
+              </span>
+
+              <div class="SackReport-details">
+                <div class="SackReport-details--reflect">
+                  <div class="SackReport-details--reflect---Header">
+                    <div class="close-btn">
+                      <i class="icon-times"></i>
+                    </div>
+                    <h2 class="SackReport-details--reflect---Header----title"><span class="icon-database"></span> Details</h2>
+                  </div>
+
+                  <div class="SackReport-details--reflect---subHeaderData">
+                    <div class="SackReport-details--reflect---subHeaderData----define">
+                      <div class="online">Online</div>
+                      <div class="SackReport-details--reflect---subHeaderData----define-----value">ID: <strong>3443</strong></div>
+                      <div class="SackReport-details--reflect---subHeaderData----define-----value">Target: <strong>facebook.com</strong></div>
+                      <div class="SackReport-details--reflect---subHeaderData----define-----value">IP victim: <strong>186.82.59.42</strong></div>
+                      <div class="SackReport-details--reflect---subHeaderData----define-----value">Requests: <strong>3</strong></div>
+                    </div>
+                  </div>
+
+                  <div class="body">
+                    <div class="SackReport-details--dataShow">
+                      <h2 class="SackReport-details--dataShow---title">General information</h2>
+                      <ul>
+                        <div class="data"><strong>Operating System:</strong> Linux 64-bit</div>
+                        <div class="data" title="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"><strong>User agent:</strong> Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36</div>
+                        <div class="data"><strong>Browser:</strong> Chrome 52.0.2743.116</div>
+                        <div class="data"><strong>Ports:</strong> 80, 21, 3389</div>
+                      </ul>
+                    </div>
+
+                    <div class="SackReport-details--dataShow">
+                      <h2 class="SackReport-details--dataShow---title">Information of location</h2>
+                      <ul>
+                        <div class="data"><strong>ISP Name:</strong> Telmex Colombia S.A.</div>
+                        <div class="data"><strong>Country:</strong> Colombia</div>
+                        <div class="data"><strong>City:</strong> Neiva</div>
+                        <div class="data"><strong>Latitude:</strong> 4.5981</div>
+                        <div class="data"><strong>Longitude:</strong> -74.0758</div>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+
+        <li class="clear-fix"></li>
+        <!--
+        <li class="SackReport-Results--pagination">
+          <ul class="pager">
+            <li class="disabled previous">
+              <a href="#"><span class="icon-angle-double-left"></span> back</a>
+            </li>
+
+            <li class="next">
+              <a href="#">Next <span class="icon-angle-double-right"></span></a>
+            </li>
+          </ul>
+          <p>
+            <strong>1-6</strong> of 8 items
+          </p>
+        </li>
+      -->
+
+        <!-- results fin -->
+      </div>
+
+
+   <div class="tab-item-2 SackReport-Results--Two">
+      
+<!-- request home -->
+                <div class="SackReport-details--Inspect">
+
+                  <div class="SackReport-details--Inspect---subHeaderData">
+                    <div class="SackReport-details--Inspect---subHeaderData----define">
+                      <div class="get">get</div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Endpoint: <strong>localhost:8080</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Target: <strong>facebook.com</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">IP victim: <strong>186.82.59.42</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Date: <strong>22/05/14 - 10:59:35</strong></div>
+                    </div>
+                  </div>
+
+                  <div class="body">
+                    <div class="SackReport-details--dataShowInspect">
+                      <ul>
+                        <div class="data"><strong>email:</strong> demo@gmail.com</div>
+                        <div class="data"><strong>user:</strong> demo</div>
+                        <div class="data"><strong>pass:</strong> way543</div>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+<!-- end request -->
+
+<!-- request home -->
+                <div class="SackReport-details--Inspect">
+
+                  <div class="SackReport-details--Inspect---subHeaderData">
+                    <div class="SackReport-details--Inspect---subHeaderData----define">
+                      <div class="post">post</div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Endpoint: <strong>localhost:8080</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Target: <strong>facebook.com</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">IP victim: <strong>186.82.59.42</strong></div>
+                      <div class="SackReport-details--Inspect---subHeaderData----define-----value">Date: <strong>22/05/14 - 10:59:35</strong></div>
+                    </div>
+                  </div>
+
+                  <div class="body">
+                    <div class="SackReport-details--dataShowInspect">
+                      <ul>
+                        <div class="data"><strong>email:</strong> demo@gmail.com</div>
+                        <div class="data"><strong>user:</strong> demo</div>
+                        <div class="data"><strong>pass:</strong> way543</div>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+<!-- end request -->
+
+    </div>
+
+  </div> <!-- SackReport-general -->
+  
+  <footer class="SackReport-Footer">
+    <p> Copyright © 2016 by <a href="https://twitter.com/jofpin" title="Creator of Sack"><strong>Jose Pino</strong></a> </p>
+  </footer>
+</div>
+<!-- load functions of Sack -->
+<script src="assets/js/main.js"></script>
+<!--<script src="assets/js/details.js"></script> -->
+</body>
+</html>
