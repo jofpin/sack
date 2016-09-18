@@ -26,9 +26,3 @@ class Config:
 
 url = None
 urlAction = "https://facebook.com"
-
-Fbp = {
-   "url": "https://spartug.com",
-   "urlAction": "https://facebook.com",
-   "redirect": "redirect.html"
-}

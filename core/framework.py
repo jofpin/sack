@@ -18,6 +18,7 @@ import glob
 import readline
 import random
 import urllib2
+import requests
 
 # Imports own
 from core.config import Config
@@ -133,6 +134,7 @@ class sack(object):
                     else:
                         self.go(command)
                 elif command[0] == "exit" or command[0] == "close":
+                    self.deleteFilesTarget("index.html", "redirect.html")
                     generals.Go(generals.Color["red"] + "Goodbye: " + generals.Color["white"] +  "Thank you for having me used, I hope soon.")
                     break
                 elif command[0] == "clear":
@@ -172,8 +174,8 @@ class sack(object):
             except KeyboardInterrupt:
                 generals.Go("")
                 generals.Go(generals.Color["redBold"] + "Alert: " + generals.Color["white"] + "Interrupted.")
-            except Exception as e:
-                generals.Go(generals.Color["redBold"] + "Error: " + generals.Color["white"] + "%s" % e)
+            except Exception as error:
+                generals.Go(generals.Color["redBold"] + "Error: " + generals.Color["white"] + "%s" % error)
 
     # Preview module information
     def infoModule(self, moduleName):
@@ -228,14 +230,12 @@ class sack(object):
         generals.Go(generals.Color["greenBold"] + "+" + generals.Color["white"] + "--" + generals.Color["blue"] + "=" + generals.Color["yellowBold"] + "[->" + generals.Color["white"] + " " + msg) 
         pass
 
-    def showIP(self):
-        numberList = "0123456789."
-        ip = ""
-        request = urllib2.urlopen("http://checkip.dyndns.org").read()
-        for reflectIP in str(request):
-            if reflectIP in numberList:
-                ip += reflectIP
-        return ip
+    # Function to delete target files
+    def deleteFilesTarget(self, indexFile, redirectFile):
+        if os.path.exists(indexFile):
+            os.remove(indexFile)
+        if os.path.exists(redirectFile):
+            os.remove(redirectFile)
 
     # Add simple options    
     def usageOpt(self, string):
@@ -244,9 +244,6 @@ class sack(object):
     # Add html to file of redirect    
     def generatePost(self, url, urlAction, requestPost):
         # Create the page that will reidrect to the orignal page.
-        #htmlFile = "redirect.html"
-        #generals.Go("")
-        #generals.Go(generals.Color["blueBold"] + "[*]" + " " + generals.Color["whiteBold"] + "Recent:" + " " + generals.Text["end"] + "updating file of redirection" + " " + generals.Color["white"] + "(" + generals.Color["blue"] + htmlFile + generals.Color["white"] + ")" + generals.Text["end"])
 
         #redirectFile = "redirect.html"
         #pathRedirect = os.getcwd() + "/data/" + indexFile

