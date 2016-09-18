@@ -16,15 +16,12 @@ import socket
 import sys
 
 class scanner(object):
-    def __init__(self): #APIS of check ip & identify GEO
-        self.apiIP = "https://api.ipify.org"
-        self.apiGEO = "http://ip-api.com/json"
-        self.varGeo = {}
-        self.notFound = "not found"
-
+    def __init__(self):
+        self.portList = [0, 21, 22, 23, 80, 8080, 3389]
+        
     def scanIP(self, victim):
         clientIP = socket.gethostbyname(victim)
-        listPorts = [0, 21, 22, 23, 80, 8080, 3389]
+        listPorts = self.portList
         results = []
         for port in listPorts:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
