@@ -97,7 +97,7 @@ class dbMgm(object):
         return True 
     
     def pong(self, ipVictim):
-        r = self.cursor.execute("update log set status = 'ofline'  WHERE ip='%s'" % ipVictim)
+        r = self.cursor.execute("update log set status = 'offline'  WHERE ip='%s'" % ipVictim)
         self.conn.commit()
         return True 
 
