@@ -1,0 +1,9 @@
+MANIFEST.in
+README.rst
+setup.py
+httpagentparser/__init__.py
+httpagentparser/more.py
+httpagentparser.egg-info/PKG-INFO
+httpagentparser.egg-info/SOURCES.txt
+httpagentparser.egg-info/dependency_links.txt
+httpagentparser.egg-info/top_level.txt

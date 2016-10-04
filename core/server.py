@@ -21,7 +21,7 @@ from core.geo import geo
 from core.scanner import scanner 
 import SimpleHTTPServer
 import SocketServer
-import httpagentparser
+from libs.httpagentparser import httpagentparser
 import requests
 import urllib2
 import time
@@ -30,7 +30,7 @@ import os
 import sys
 import json
 from socket import error as socerr
-from bs4 import BeautifulSoup as bs
+from libs.bs4 import BeautifulSoup as bs
 
 Framework = sack()
 dbMgm = dbMgm()
