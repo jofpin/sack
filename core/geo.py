@@ -13,7 +13,7 @@
 #**
 
 import requests
-import untangle
+from libs.untangle import untangle
 
 class geo(object):
     def __init__(self):

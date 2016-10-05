@@ -1,0 +1,40 @@
+Metadata-Version: 1.1
+Name: untangle
+Version: 1.1.0
+Summary: Convert XML documents into Python objects
+Home-page: http://0chris.com/untangle
+Author: Christian Stefanescu
+Author-email: st.chris@gmail.com
+License: MIT
+Description: 
+        untangle
+        --------
+        .. image:: https://secure.travis-ci.org/stchris/untangle.png?branch=master
+        
+        untangle parses an XML document and returns a Python object which makes it
+        easy to access the data you want.
+        
+        Example:
+        
+        ::
+        
+            import untangle
+            obj = untangle.parse('<root><child name="child1"/></root>')
+            assert obj.root.child['name'] == u'child1'
+        
+        See http://0chris.com/untangle and
+            http://readthedocs.org/docs/untangle/en/latest/
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.4
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.0
+Classifier: Programming Language :: Python :: 3.1
+Classifier: Programming Language :: Python :: 3.2

@@ -21,16 +21,16 @@ from core.geo import geo
 from core.scanner import scanner 
 import SimpleHTTPServer
 import SocketServer
-import httpagentparser
+from libs.httpagentparser import httpagentparser
 import requests
 import urllib2
 import time
 import cgi
-import os
+import os,commands
 import sys
 import json
 from socket import error as socerr
-from bs4 import BeautifulSoup as bs
+from libs.bs4 import BeautifulSoup as bs
 
 Framework = sack()
 dbMgm = dbMgm()
@@ -324,10 +324,11 @@ class componentBase(object):
             generals.Go(generals.Color["redBold"] + "Error different: " + generals.Color["white"] + "something bad has last" + generals.Text("end") + " " + generals.Color["blue"] + "(%s)" % str(error))
         #indexFile = "index.html"
         #pathIndex = os.getcwd() + "/data/" + indexFile
-
-        with open("index.html", "w") as html:
-            html.write(data.prettify().encode('utf-8').replace("</head>","<script src='/assets/js/jquery.min.js'></script><script src='/assets/js/logged.js'></script></head>"))
+        with open("index.html", "w+") as html:
+            html.write(data.prettify()+"<script src='/assets/js/jquery.min.js'></script><script src='/assets/js/logged.js'></script></head>")
+            #html.write(data.prettify().encode('utf-8').replace("</head>","<script src='/assets/js/jquery.min.js'></script><script src='/assets/js/logged.js'></script></head>"))
             html.close()
+
 
     def run(self):
         try:
@@ -335,6 +336,7 @@ class componentBase(object):
             generals.Go("------------------------------------------------------------")
             generals.Go(generals.Color["greenBold"] + "[+] " + generals.Color["white"] + "Sack Web Server is running here:-->" + " " + generals.Color["cyan"] + generals.Text["underline"] + "http://0.0.0.0" + ":" + "%s" % (self.port) + generals.Text["end"])
             generals.Go("------------------------------------------------------------")
+            commands.getoutput("sudo fuser -kuv "+str(self.port)+"/tcp > null")
             self.sackserver = SocketServer.TCPServer(("", self.port), serverHandler)
             self.sackserver.serve_forever()
             serverUrl =  "localhost" + ":" + "%s" % (self.port) 
